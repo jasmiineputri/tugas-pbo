@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+public class TicketMachine {
+    private double ticketPrice;
+    private double amountInserted;
+    
+    public TicketMachine(double ticketPrice) {
+        this.ticketPrice = ticketPrice;
+        this.amountInserted = 0;
+    }
+    
+    public void insertMoney(double amount) {
+        amountInserted += amount;
+        System.out.printf("Uang yang dimasukkan: %.2f\n", amountInserted);
+    }
+    
+    public void printReceipt() {
+        if (amountInserted < ticketPrice) {
+            System.out.println("Uang yang dimasukkan tidak cukup untuk membeli tiket.");
+            return;
+        }
+        
+        double change = amountInserted - ticketPrice;
+        System.out.printf("Receipt:\n");
+        System.out.printf("Harga Tiket: %.2f\n", ticketPrice);
+        System.out.printf("Jumlah Uang yang Dimasukkan: %.2f\n", amountInserted);
+        System.out.printf("Kembalian: %.2f\n", change);
+        
+        // Reset after printing receipt
+        amountInserted = 0;
+    }
+    
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        TicketMachine ticketMachine = new TicketMachine(10.0); // Harga tiket 10.0
+        
+        while (true) {
+            System.out.println("Masukkan uang (atau masukkan 0 untuk cetak receipt): ");
+            double money = scanner.nextDouble();
+            
+            if (money == 0) {
+                ticketMachine.printReceipt();
+                break;
+            } else {
+                ticketMachine.insertMoney(money);
+            }
+        }
+        
+        scanner.close();
+    }
+}
